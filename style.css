@@ -10,7 +10,6 @@ body{
   color:#222;
   transition:0.3s;
 }
-
 body.dark{
   background:#111827;
   color:white;
@@ -157,13 +156,15 @@ table{
 
 
 th{
+   padding:16px;
   background:#2563eb;
   color:white;
 }
 
-th,td{
+td{
   padding:16px;
   text-align:center;
+   color:black;
 }
 
 .edit-btn{
@@ -180,7 +181,21 @@ th,td{
   border-radius:8px;
 }
 
+.charts{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(350px,1fr));
+  gap:20px;
+}
 
+.chart-card{
+  background:white;
+  padding:25px;
+  border-radius:18px;
+}
+
+body.dark .chart-card{
+  background:#1f2937;
+}
 @media(max-width:768px){
 
   .hero-content h1{

@@ -19,6 +19,8 @@ const filterCategory = document.getElementById("filterCategory");
 let expenses = JSON.parse(localStorage.getItem("expenses")) || [];
 
 let budget = JSON.parse(localStorage.getItem("budget")) || 0;
+let pieChart;
+let barChart;
 
 
 
@@ -171,9 +173,104 @@ searchInput.addEventListener("input", filterExpenses);
 filterCategory.addEventListener("change", filterExpenses);
 
 
+function updateCharts(){
 
+  const totals = {};
 
+  expenses.forEach(exp=>{
 
+    if(totals[exp.category]){
+
+      totals[exp.category] += exp.amount;
+
+    }else{
+
+      totals[exp.category] =
+      exp.amount;
+    }
+
+  });
+
+  const labels =
+  Object.keys(totals);
+
+  const values =
+  Object.values(totals);
+
+  if(pieChart) pieChart.destroy();
+  if(barChart) barChart.destroy();
+
+  pieChart = new Chart(
+    document.getElementById("pieChart"),
+    {
+      type:"doughnut",
+
+      data:{
+        labels:labels,
+
+        datasets:[{
+          data:values
+        }]
+      }
+    }
+  );
+
+  barChart = new Chart(
+    document.getElementById("barChart"),
+    {
+      type:"bar",
+
+      data:{
+        labels:labels,
+
+        datasets:[{
+          label:"Expenses",
+          data:values,
+          borderRadius:10
+        }]
+      }
+    }
+  );
+}
+
+document.getElementById("themeToggle")
+.addEventListener("click",()=>{
+
+  document.body.classList.toggle("dark");
+});
+
+document.getElementById("exportBtn")
+.addEventListener("click", () => {
+
+  let csv = "Title,Amount,Category,Date\n";
+
+  expenses.forEach(exp => {
+
+    csv += `${exp.title},${exp.amount},${exp.category},${exp.date}\n`;
+
+  });
+
+  const blob = new Blob([csv], {
+    type: "text/csv"
+  });
+
+  const url = window.URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+
+  a.href = url;
+
+  a.download = "expenses.csv";
+
+  document.body.appendChild(a);
+
+  a.click();
+
+  document.body.removeChild(a);
+
+  window.URL.revokeObjectURL(url);
+
+});
 renderExpenses();
 
 updateSummary();
