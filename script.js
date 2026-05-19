@@ -233,7 +233,44 @@ function updateCharts(){
   );
 }
 
+document.getElementById("themeToggle")
+.addEventListener("click",()=>{
 
+  document.body.classList.toggle("dark");
+});
+
+document.getElementById("exportBtn")
+.addEventListener("click", () => {
+
+  let csv = "Title,Amount,Category,Date\n";
+
+  expenses.forEach(exp => {
+
+    csv += `${exp.title},${exp.amount},${exp.category},${exp.date}\n`;
+
+  });
+
+  const blob = new Blob([csv], {
+    type: "text/csv"
+  });
+
+  const url = window.URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+
+  a.href = url;
+
+  a.download = "expenses.csv";
+
+  document.body.appendChild(a);
+
+  a.click();
+
+  document.body.removeChild(a);
+
+  window.URL.revokeObjectURL(url);
+
+});
 renderExpenses();
 
 updateSummary();

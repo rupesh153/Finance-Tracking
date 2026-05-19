@@ -10,6 +10,10 @@ body{
   color:#222;
   transition:0.3s;
 }
+body.dark{
+  background:#111827;
+  color:white;
+}
 
 .navbar{
   display:flex;
@@ -91,7 +95,9 @@ button{
   transition:0.3s;
 }
 
-
+body.dark .card{
+  background:#1f2937;
+}
 
 .card:hover{
   transform:translateY(-5px);
@@ -187,7 +193,9 @@ td{
   border-radius:18px;
 }
 
-
+body.dark .chart-card{
+  background:#1f2937;
+}
 @media(max-width:768px){
 
   .hero-content h1{
